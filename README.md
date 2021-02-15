@@ -52,7 +52,7 @@ R包开发](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html)）�
 3.  GitHub Desktop（Git操作的图形界面，非必需但是方便了解代码发生了什么变化）。
 
 此外，在 GitHub
-上也放了一个和本教程相关的仓库（[swsoyee/rPackageTutorial](https://github.com/swsoyee/rPackageTutorial)）&#8;。
+上也放了一个和本教程相关的仓库（[swsoyee/rPackageTutorial](https://github.com/swsoyee/rPackageTutorial)）。
 也可以参看[每一次
 Commit（提交）](https://github.com/swsoyee/rPackageTutorial/commits/main)来了解每一步操作具体发生了什么变化，从而加深理解。
 每一步操作都没有唯一答案，所写的内容也只是其中的一个可供参考的步骤而已。
@@ -283,7 +283,7 @@ install.packages("styler")
 styler::style_pkg()
 ```
 
-结果显示，一个文件被进行了代码格式上的修改&#8;，一些空格被自动添加到了里面：
+结果显示，一个文件被进行了代码格式上的修改，一些空格被自动添加到了里面：
 
     Styling  2  files:
      R/add.R   ℹ 
