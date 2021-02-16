@@ -132,13 +132,13 @@
 <h3 class="hasAnchor">
 <a href="#32-%E5%8A%A0%E5%85%A5%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6git" class="anchor"></a>3.2 加入版本控制（Git）</h3>
 <p>这一步的方法有很多种，这里写的是本人用的最简单的一种。 打开 GitHub Desktop（默认已经完成了登陆 GitHub 账号的操作），点击 <code>Add &gt; Add Existing Repository</code>，在弹出的 <code>Add Local Repository</code> 中选择所创建好的 <a href="https://github.com/swsoyee/rPackageTutorial">rPackageTutorial</a> 路径。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6D7PP.png" alt="3.2.1. 使用 GitHub Desktop 添加本地项目。"></p>
+<p><img src="reference/figures/3.2.1.png" alt="3.2.1 使用 GitHub Desktop 添加本地项目。"></p>
 <p>会提示您选择的文件夹还没有包含 Git 的相关设定，因此只需要继续点击 <code>create a repository</code> 创建相关设定即可。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DWKe.png" alt="3.2.2. 选择本地项目地址后点击 create a repository 创建相关设定。"></p>
+<p><img src="reference/figures/3.2.2.png" alt="3.2.2 选择本地项目地址后点击 create a repository 创建相关设定。"></p>
 <p>在下一步的 <code>Create a New Repository</code> 中可以什么都不改，直接点击右下角的 <code>Create Repository</code> 按钮完成项目的创建。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6Do5t.png" alt="3.2.3. 填写云端项目信息内容后按 Create a New Repository 创建。"></p>
+<p><img src="reference/figures/3.2.3.png" alt="3.2.3 填写云端项目信息内容后按 Create a New Repository 创建。"></p>
 <p>至此，本地的设定就完成了，只需要点击 <code>Publish repository</code>，然后设置公不公开后即可将项目推送到你的 GitHub 中去了。 可以点击这里 <a href="https://github.com/swsoyee/rPackageTutorial/commit/d78d245c641b4208de2ed726f764e4b4a38ab3ed"><code>d78d245</code></a> 查看第一次推送时候的变更内容。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DfDH.png" alt="3.2.4. 点击 Publish repository 推送到云端 GitHub 上。"></p>
+<p><img src="reference/figures/3.2.4.png" alt="3.2.4 点击 Publish repository 推送到云端 GitHub 上。"></p>
 </div>
 <div id="33-用-renv-进行依赖加载包的版本控制" class="section level3">
 <h3 class="hasAnchor">
@@ -176,7 +176,7 @@
 <li>如果换了电脑进行开发，运行 <code><a href="https://rstudio.github.io/renv//reference/restore.html">renv::restore</a></code> 恢复到开发时用的包环境；</li>
 </ul>
 <p>完成这一步后，不要忘记进行 Git 的提交工作。 让我们回到 GitHub Desktop，在 <code><a href="https://rdrr.io/r/base/groupGeneric.html">Summary (required)</a></code> 中提交本次改动的内容（在这里我写了 <code>使用renv进行环境初始化</code>），点击 <code>Commit to main</code> 完成本地提交后，点击 <code>Push origin</code> 推送到云端（GitHub）上（<a href="https://github.com/swsoyee/rPackageTutorial/commit/229365403eadbf8ed4ff49171a3f298a16e3c12e"><code>2493654</code></a>）。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6Dhbd.png" alt="3.3.1 使用 GitHub Desktop 进行 Git 操作对于新手较为友好。"></p>
+<p><img src="reference/figures/3.3.1.png" alt="3.3.1 使用 GitHub Desktop 进行 Git 操作对于新手较为友好。"></p>
 <p>至于如何写好提交信息可以参考<a href="https://zj-git-guide.readthedocs.io/zh_CN/latest/message/Angular%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF%E8%A7%84%E8%8C%83/">Angular提交信息规范</a>，如果要显得包较为专业的话，那么这些小细节也是不容忽视的。 在这之后将不再赘述每一步操作的提交工作，可以参考示例项目的提交记录即可。</p>
 <blockquote>
 <p>注：在本次教程中没有每次都适时的进行 <code><a href="https://rstudio.github.io/renv//reference/snapshot.html">renv::snapshot()</a></code> 的包更新操作，在开发当中，每次引入或者使用新包的适合都建议进行一次 <code>lockfile</code> 的更新（<a href="https://github.com/swsoyee/rPackageTutorial/commit/bc5051d1ed25a9d1ec36d139686acc84cfdf9f38"><code>bc5051d</code></a>）。</p>
@@ -197,7 +197,7 @@
 <p>注：由于设定，每一次编写后必须要点击 <code>Knit</code> 进行更新才能提交本次变更。</p>
 </blockquote>
 <p>第一次 <code>Knit</code> 的时候，在 <code>README.Rmd</code> 会有你的包加载的这一条命令，因此需要先将包成功打包一次才能成功执行，否则会报错。 或者你也可以先把自动生成的模版中的 <code><a href="https://github.com/swsoyee/rPackageTutorial">library(rPackageTutorial)</a></code> 先注释掉即可。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DOKg.png" alt="3.4.1 由于图中选择的加载包的代码存在，因此需要先将包成功打包一次才能成功执行。可以选择右侧面板中的 Build 标签，按 Install and Restart 即可。"></p>
+<p><img src="reference/figures/3.4.1.png" alt="3.4.1 由于图中选择的加载包的代码存在，因此需要先将包成功打包一次才能成功执行。可以选择右侧面板中的 Build 标签，按 Install and Restart 即可。"></p>
 <p>完成后回到 GitHub Desktop 进行提交（<a href="https://github.com/swsoyee/rPackageTutorial/commit/658b2338783bd1a7ec2f8fcf75c2eb675cd66049"><code>658b233</code></a>）。</p>
 </div>
 <div id="35-编写函数" class="section level3">
@@ -213,7 +213,7 @@
   <span class="va">a</span><span class="op">+</span><span class="va">b</span>
 <span class="op">}</span></code></pre></div>
 <p>至此，我们只是在一个文件里写了一个函数，但是还没有让这个函数包含到我们的包中。 这时候，就需要插入一些文档让打包的时候能够识别这个函数。 这一步我们可以点击图中左上的 <strong>魔术棒</strong> 按钮（放大镜图标的右侧），点击 <code>Insert Roxygen Skeleton</code> 快速生成文档骨架。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6Db28.png" alt="3.5.1 在 R 文件夹h中创建 add.R 文件用于保存函数，点击 Insert Roxygen Skeleton 快速生成。"></p>
+<p><img src="reference/figures/3.5.1.png" alt="3.5.1 在 R 文件夹h中创建 add.R 文件用于保存函数，点击 Insert Roxygen Skeleton 快速生成。"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 点击 Insert Roxygen Skeleton 后就会出现文档结构</span>
 <span class="co">#' Title</span>
@@ -253,7 +253,7 @@
 <span id="cb9-3"><a href="#cb9-3"></a>Writing NAMESPACE</span>
 <span id="cb9-4"><a href="#cb9-4"></a>Writing add.Rd</span></code></pre></div>
 <p>之后再按一下 <code>Install and Restart</code> 就可以使用了。也可以在命令行中使用 <code><a href="reference/add.html">?add</a></code> 来查看一下自己定义的帮助文档。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DIUI.png" alt="3.5.2 输入 devtools::document() 更新文档，然后点击 Install and Restart 重新打包并自动重新加载包，可用 ?add 来确认没有问题。"></p>
+<p><img src="reference/figures/3.5.2.png" alt="3.5.2 输入 devtools::document() 更新文档，然后点击 Install and Restart 重新打包并自动重新加载包，可用 ?add 来确认没有问题。"></p>
 <p>最后，回到 GitHub Desktop 中提交本次更改（<a href="https://github.com/swsoyee/rPackageTutorial/commit/88f0c57f538d6b71bda138acc76ffd09aa7b1b18"><code>88f0c57</code></a>）。 至此，你的包就创建完成啦！<del>本期教程结束，再次感谢！</del></p>
 </div>
 <div id="36-用-styler-来美化代码" class="section level3">
@@ -312,7 +312,7 @@
 <span id="cb15-5"><a href="#cb15-5"></a>✓ Creating <span class="st">'.github/workflows/'</span></span>
 <span id="cb15-6"><a href="#cb15-6"></a>✓ Writing <span class="st">'.github/workflows/lint.yaml'</span></span></code></pre></div>
 <p>老样子，提交并推送代码到 GitHub 上（<a href="https://github.com/swsoyee/rPackageTutorial/commit/454c7f6bf604d6ecb84c04848b1c923750193cd2"><code>454c7f6</code></a>）。 在这之后的每次当你提交的代码通过检查的时候，就会有一个绿色的小勾表示通过，是不是稍微显得专业一点了呢？</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6Djbj.png" alt="3.7.1 多出了一个小狗狗勾勾来显示我们的代码完全没问题，已通过检查。"></p>
+<p><img src="reference/figures/3.7.1.png" alt="3.7.1 多出了一个小狗狗勾勾来显示我们的代码完全没问题，已通过检查。"></p>
 </div>
 <div id="38-用-testthat-来测试代码" class="section level3">
 <h3 class="hasAnchor">
@@ -346,7 +346,7 @@
   <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/add.html">add</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>在写完测试后，可以点击编写面板的右上角 <code>Run Tests</code> 进行单文件测试，也可以选择 <code>Addins &gt; Report test coverage for a package</code> 进行整个包的函数测试覆盖率的测算。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DxVs.png" alt="3.8.1 运行测试的方法多种多样，最简单的单文件测试是点击编辑界面右上角的 Run Tests。"></p>
+<p><img src="reference/figures/3.8.1.png" alt="3.8.1 运行测试的方法多种多样，最简单的单文件测试是点击编辑界面右上角的 Run Tests。"></p>
 <p>当然还有其他办法来达成同样的目的，这只是其中一种方法而已。 但如果他人对你的代码进行修改或者实现了功能时，通过什么办法确保对方修改的代码不会造成 Bug 呢？ 同样是通过 GitHub Action 来进行实现，稍后将会讲解到。回到 GitHub Desktop 提交我们本次的修改（<a href="https://github.com/swsoyee/rPackageTutorial/commit/2655b2a9b936148a33ae50c30d7e8c6bb7ea7095"><code>2655b2a</code></a>）。</p>
 </div>
 <div id="39-编写包的说明" class="section level3">
@@ -444,7 +444,7 @@
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 让我们来试一下看创建我们的网站</span>
 <span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html">build_site</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="https://s3.ax1x.com/2021/02/15/y66xyT.png" alt="3.10.1 嗯，有内味儿了。"></p>
+<p><img src="reference/figures/3.10.1.png" alt="3.10.1 嗯，有内味儿了。"></p>
 <p>要对网站进行定制化，只需要给 <code>_pkgdown.yml</code> 中添加配置即可。 具体可以参考文档说明，因此在这里也不赘述了。 还是别忘了提交本次变更（<a href="https://github.com/swsoyee/rPackageTutorial/commit/18b5d4539bc3ce738532633c65901aa1f0b49957"><code>18b5d45</code></a>）。</p>
 </div>
 <div id="311-用-github-action-自动检查" class="section level3">
@@ -476,12 +476,14 @@
 <p>所以在此，由于引入的设置命令中对 <code>README.Rmd</code> 进行了修改（加了 2 个徽章），因此首先需要更新我们的 <code>README.md</code> 才行。 打开 <code>README.Rmd</code> 点击编辑面板上方的 <code>Knit</code> 进行同步更新。或者使用下述命令更新也可。</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">build_rmd</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>提交本次变更推送到 GitHub 中（<a href="https://github.com/swsoyee/rPackageTutorial/commit/e78b03590faf9ed4281a7506f35bc73e85d48ce7"><code>e78b035</code></a>）。 点开检查的标记，发现多出了非常多的流程。 <img src="https://s3.ax1x.com/2021/02/15/y6rS5q.png" alt="3.11.1 运行中是黄色小圈圈，通过是绿色的勾，有错误是红色的叉。"> 包括 <code>{lintr}</code> 的代码规范性检查、 <code>test-coverage</code> 的测试覆盖度计算、 <a href="https://pkgdown.r-lib.org">pkgdown</a> 的帮助文档网站生成、包的构建结果检查 <code>R-CMD-check</code> 等等一些列的操作都会在合适的时候自动执行。 其结果会反映到 README 和网站中，是不是整个就显得专业起来了呢？</p>
+<p>提交本次变更推送到 GitHub 中（<a href="https://github.com/swsoyee/rPackageTutorial/commit/e78b03590faf9ed4281a7506f35bc73e85d48ce7"><code>e78b035</code></a>）。 点开检查的标记，发现多出了非常多的流程。</p>
+<p><img src="reference/figures/3.11.1.png" alt="3.11.1 运行中是黄色小圈圈，通过是绿色的勾，有错误是红色的叉。"></p>
+<p>包括 <code>{lintr}</code> 的代码规范性检查、 <code>test-coverage</code> 的测试覆盖度计算、 <a href="https://pkgdown.r-lib.org">pkgdown</a> 的帮助文档网站生成、包的构建结果检查 <code>R-CMD-check</code> 等等一些列的操作都会在合适的时候自动执行。 其结果会反映到 README 和网站中，是不是整个就显得专业起来了呢？</p>
 <p>不过等下，我们还需要在 GitHub 上完成一点小设置：</p>
 <p>首先在 GitHub 上设置激活我们的帮助手册托管页面。 来到项目的 <code>Setting</code>，向下滚动到 <code>GitHub Pages</code> 一项。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DXrQ.png" alt="3.11.2 来到设定页面。并且滚动到 GitHub Pages 一项。"></p>
+<p><img src="reference/figures/3.11.2.png" alt="3.11.2 来到设定页面。并且滚动到 GitHub Pages 一项。"></p>
 <p>按图中设置分支 <code>Branch:gh-pages / root</code> 后按保存即可。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6DH8f.png" alt="3.11.3 按图中设置即可。"></p>
+<p><img src="reference/figures/3.11.3.png" alt="3.11.3 按图中设置即可。"></p>
 <p>保存成功后会自动返回页面最上方，还是向下滚动到刚才的 <code>GitHub Pages</code>，能看到多了一行字，没几十秒就能看到我们的网址被激活了：</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>Your site is ready to be published at https<span class="op">:</span><span class="er">//</span>swsoyee.github.io<span class="op">/</span>rPackageTutorial<span class="op">/</span>.</span></code></pre></div>
 <p>然后让我们回到 GitHub 仓库的首页，你可能会看到一个 <a href="https://codecov.io/gh/swsoyee/rPackageTutorial?branch=main"><code>codecov | unknown</code></a> 的小徽章。 但不用着急，只需要后续再提交内容的话，unknown 就会自动更新为测试覆盖度了。</p>
@@ -517,7 +519,7 @@
 <p>注：在这里同样可以通过 <code>usethis::use_github_links()</code> 来达成相同目的，但是首先要进行 PAT 的设置。 有兴趣的可以自己设置一下，这里就采取最简单易懂的复制粘贴形式来达成相同目的了。</p>
 </blockquote>
 <p>提交本次变更并且推送后<a href="https://github.com/swsoyee/rPackageTutorial/commit/8166dface73993a7fe6be0c7e6d67bf3512eba68"><code>8166dfa</code></a>，等通过 GitHub Action 调用 <a href="https://pkgdown.r-lib.org">pkgdown</a> 自动执行完操作后，一个页面信息更丰富的专业包说明网站就被自动更新了。</p>
-<p><img src="https://s3.ax1x.com/2021/02/15/y6RVlq.png" alt="3.12.1 整体框架搭建完成。"></p>
+<p><img src="reference/figures/3.12.1.png" alt="3.12.1 整体框架搭建完成。"></p>
 </div>
 </div>
 <div id="4-结语" class="section level2">
