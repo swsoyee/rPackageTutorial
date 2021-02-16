@@ -87,27 +87,25 @@ usethis::create_package(path = "../rPackageTutorial")
 `Add > Add Existing Repository`，在弹出的 `Add Local Repository` 中选择所创建好的
 `{rPackageTutorial}` 路径。
 
-![3.2.1. 使用 GitHub Desktop
-添加本地项目。](https://s3.ax1x.com/2021/02/15/y6D7PP.png)
+![3.2.1 使用 GitHub Desktop 添加本地项目。](man/figures/3.2.1.png)
 
 会提示您选择的文件夹还没有包含 Git 的相关设定，因此只需要继续点击 `create a repository` 创建相关设定即可。
 
-![3.2.2. 选择本地项目地址后点击 `create a repository`
-创建相关设定。](https://s3.ax1x.com/2021/02/15/y6DWKe.png)
+![3.2.2 选择本地项目地址后点击 `create a repository`
+创建相关设定。](man/figures/3.2.2.png)
 
 在下一步的 `Create a New Repository` 中可以什么都不改，直接点击右下角的 `Create Repository`
 按钮完成项目的创建。
 
-![3.2.3. 填写云端项目信息内容后按 `Create a New Repository`
-创建。](https://s3.ax1x.com/2021/02/15/y6Do5t.png)
+![3.2.3 填写云端项目信息内容后按 `Create a New Repository`
+创建。](man/figures/3.2.3.png)
 
 至此，本地的设定就完成了，只需要点击 `Publish repository`，然后设置公不公开后即可将项目推送到你的 GitHub 中去了。
 可以点击这里
 [`d78d245`](https://github.com/swsoyee/rPackageTutorial/commit/d78d245c641b4208de2ed726f764e4b4a38ab3ed)
 查看第一次推送时候的变更内容。
 
-![3.2.4. 点击 `Publish repository` 推送到云端 GitHub
-上。](https://s3.ax1x.com/2021/02/15/y6DfDH.png)
+![3.2.4 点击 `Publish repository` 推送到云端 GitHub 上。](man/figures/3.2.4.png)
 
 ### 3.3 用 `{renv}` 进行依赖（加载包）的版本控制
 
@@ -159,8 +157,7 @@ renv::snapshot()
 完成本地提交后，点击 `Push origin`
 推送到云端（GitHub）上（[`2493654`](https://github.com/swsoyee/rPackageTutorial/commit/229365403eadbf8ed4ff49171a3f298a16e3c12e)）。
 
-![3.3.1 使用 GitHub Desktop 进行 Git
-操作对于新手较为友好。](https://s3.ax1x.com/2021/02/15/y6Dhbd.png)
+![3.3.1 使用 GitHub Desktop 进行 Git 操作对于新手较为友好。](man/figures/3.3.1.png)
 
 至于如何写好提交信息可以参考[Angular提交信息规范](https://zj-git-guide.readthedocs.io/zh_CN/latest/message/Angular%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF%E8%A7%84%E8%8C%83/)，如果要显得包较为专业的话，那么这些小细节也是不容忽视的。
 在这之后将不再赘述每一步操作的提交工作，可以参考示例项目的提交记录即可。
@@ -191,7 +188,7 @@ usethis::use_readme_rmd()
 或者你也可以先把自动生成的模版中的 `library(rPackageTutorial)` 先注释掉即可。
 
 ![3.4.1 由于图中选择的加载包的代码存在，因此需要先将包成功打包一次才能成功执行。可以选择右侧面板中的 `Build` 标签，按
-`Install and Restart` 即可。](https://s3.ax1x.com/2021/02/15/y6DOKg.png)
+`Install and Restart` 即可。](man/figures/3.4.1.png)
 
 完成后回到 GitHub Desktop
 进行提交（[`658b233`](https://github.com/swsoyee/rPackageTutorial/commit/658b2338783bd1a7ec2f8fcf75c2eb675cd66049)）。
@@ -216,7 +213,7 @@ add<-function(a,b) {
 快速生成文档骨架。
 
 ![3.5.1 在 `R` 文件夹h中创建 `add.R` 文件用于保存函数，点击 `Insert Roxygen Skeleton`
-快速生成。](https://s3.ax1x.com/2021/02/15/y6Db28.png)
+快速生成。](man/figures/3.5.1.png)
 
 ``` r
 # 点击 Insert Roxygen Skeleton 后就会出现文档结构
@@ -263,8 +260,7 @@ devtools::document()
 之后再按一下 `Install and Restart` 就可以使用了。也可以在命令行中使用 `?add` 来查看一下自己定义的帮助文档。
 
 ![3.5.2 输入 `devtools::document()` 更新文档，然后点击 `Install and Restart`
-重新打包并自动重新加载包，可用 `?add`
-来确认没有问题。](https://s3.ax1x.com/2021/02/15/y6DIUI.png)
+重新打包并自动重新加载包，可用 `?add` 来确认没有问题。](man/figures/3.5.2.png)
 
 最后，回到 GitHub Desktop
 中提交本次更改（[`88f0c57`](https://github.com/swsoyee/rPackageTutorial/commit/88f0c57f538d6b71bda138acc76ffd09aa7b1b18)）。
@@ -353,8 +349,7 @@ usethis::use_github_action("lint")
 上（[`454c7f6`](https://github.com/swsoyee/rPackageTutorial/commit/454c7f6bf604d6ecb84c04848b1c923750193cd2)）。
 在这之后的每次当你提交的代码通过检查的时候，就会有一个绿色的小勾表示通过，是不是稍微显得专业一点了呢？
 
-![3.7.1
-多出了一个小~~狗狗~~勾勾来显示我们的代码完全没问题，已通过检查。](https://s3.ax1x.com/2021/02/15/y6Djbj.png)
+![3.7.1 多出了一个小~~狗狗~~勾勾来显示我们的代码完全没问题，已通过检查。](man/figures/3.7.1.png)
 
 ### 3.8 用 `{testthat}` 来测试代码
 
@@ -403,7 +398,7 @@ test_that("add() function return the sum of two number", {
 coverage for a package` 进行整个包的函数测试覆盖率的测算。
 
 ![3.8.1 运行测试的方法多种多样，最简单的单文件测试是点击编辑界面右上角的 `Run
-Tests`。](https://s3.ax1x.com/2021/02/15/y6DxVs.png)
+Tests`。](man/figures/3.8.1.png)
 
 当然还有其他办法来达成同样的目的，这只是其中一种方法而已。 但如果他人对你的代码进行修改或者实现了功能时，通过什么办法确保对方修改的代码不会造成
 Bug 呢？ 同样是通过 GitHub Action 来进行实现，稍后将会讲解到。回到 GitHub Desktop
@@ -529,7 +524,7 @@ usethis::use_pkgdown()
 pkgdown::build_site()
 ```
 
-![3.10.1 嗯，有内味儿了。](https://s3.ax1x.com/2021/02/15/y66xyT.png)
+![3.10.1 嗯，有内味儿了。](man/figures/3.10.1.png)
 
 要对网站进行定制化，只需要给 `_pkgdown.yml` 中添加配置即可。 具体可以参考文档说明，因此在这里也不赘述了。
 还是别忘了提交本次变更（[`18b5d45`](https://github.com/swsoyee/rPackageTutorial/commit/18b5d4539bc3ce738532633c65901aa1f0b49957)）。
@@ -577,8 +572,10 @@ devtools::build_rmd()
 
 提交本次变更推送到 GitHub
 中（[`e78b035`](https://github.com/swsoyee/rPackageTutorial/commit/e78b03590faf9ed4281a7506f35bc73e85d48ce7)）。
-点开检查的标记，发现多出了非常多的流程。 ![3.11.1
-运行中是黄色小圈圈，通过是绿色的勾，有错误是红色的叉。](https://s3.ax1x.com/2021/02/15/y6rS5q.png)
+点开检查的标记，发现多出了非常多的流程。
+
+![3.11.1 运行中是黄色小圈圈，通过是绿色的勾，有错误是红色的叉。](man/figures/3.11.1.png)
+
 包括 `{lintr}` 的代码规范性检查、 `test-coverage` 的测试覆盖度计算、 `{pkgdown}`
 的帮助文档网站生成、包的构建结果检查 `R-CMD-check`
 等等一些列的操作都会在合适的时候自动执行。 其结果会反映到 README
@@ -588,12 +585,11 @@ devtools::build_rmd()
 
 首先在 GitHub 上设置激活我们的帮助手册托管页面。 来到项目的 `Setting`，向下滚动到 `GitHub Pages` 一项。
 
-![3.11.2 来到设定页面。并且滚动到 `GitHub Pages`
-一项。](https://s3.ax1x.com/2021/02/15/y6DXrQ.png)
+![3.11.2 来到设定页面。并且滚动到 `GitHub Pages` 一项。](man/figures/3.11.2.png)
 
 按图中设置分支 `Branch:gh-pages / root` 后按保存即可。
 
-![3.11.3 按图中设置即可。](https://s3.ax1x.com/2021/02/15/y6DH8f.png)
+![3.11.3 按图中设置即可。](man/figures/3.11.3.png)
 
 保存成功后会自动返回页面最上方，还是向下滚动到刚才的 `GitHub Pages`，能看到多了一行字，没几十秒就能看到我们的网址被激活了：
 
@@ -648,7 +644,7 @@ usethis::use_code_of_conduct()
 提交本次变更并且推送后[`8166dfa`](https://github.com/swsoyee/rPackageTutorial/commit/8166dface73993a7fe6be0c7e6d67bf3512eba68)，等通过
 GitHub Action 调用 `{pkgdown}` 自动执行完操作后，一个页面信息更丰富的专业包说明网站就被自动更新了。
 
-![3.12.1 整体框架搭建完成。](https://s3.ax1x.com/2021/02/15/y6RVlq.png)
+![3.12.1 整体框架搭建完成。](man/figures/3.12.1.png)
 
 ## 4\. 结语
 
