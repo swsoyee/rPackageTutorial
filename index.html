@@ -85,17 +85,10 @@
 <li>
 <a href="https://cosx.org/2013/11/building-r-packages-easily/">极简 R 包建立方法</a>;</li>
 <li>
-<a href="https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html">R包开发</a>;</li>
-<li><a href="https://www.bioinfo-scrounger.com/archives/546/">如何快速写一个R包</a></li>
-<li><a href="https://pzhao.org/zh/post/rmickey/">9分钟写个R语言包：菜鸟致简速成</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/115763795">R语言–创建（编写）R包</a></li>
-<li><a href="https://www.wzyblog.top/post/2018/09/19/creating-r-packages/">创建R包</a></li>
-<li><a href="https://rstudio-pubs-static.s3.amazonaws.com/462425_841be258782641ee83e8b89c45fa504c.html">R 包开发</a></li>
-<li><a href="http://personalbioinformatics.blogspot.com/2019/01/r.html">R包编写详细教程</a></li>
-<li><a href="https://www.jianshu.com/p/5ed642733a2a">创建R包+封装函数+上传到github</a></li>
+<a href="https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html">R包开发</a>;<br>
+……</li>
 </ol>
-<p>还有数不胜数的学习笔记和知识分享类的文章。那么问题来了，为什么我还要再写一篇来分享如何创建 R 包的文章呢？ 动机其实也很简单，可能也是由于自己阅读或者搜索深度不够，目前还没有发现一篇说到如何用“专业”的方式来创建 R 包的教程。</p>
-<p>即使有（如上述参考链接中的 <a href="https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html">3. R包开发</a>），略微过于详细，没有花上个把两天是很难体验到全流程的。</p>
+<p>还有数不胜数的学习笔记和知识分享类的文章。那么问题来了，为什么我还要再写一篇来分享如何创建 R 包的文章呢？ 动机其实也很简单，由于 R 社区的不断发展，<code>{usethis}</code>、<a href="https://testthat.r-lib.org">testthat</a>、<code>{styler}</code>、<code>{lintr}</code>、<a href="https://pkgdown.r-lib.org">pkgdown</a> 等等各类便于开发的工具层出不穷，在这些工具的帮助下，开发一个包的学习曲线愈发地降低。 而现在中文网络中基于这些更为现代化工具的开发新手级入门教程还是尚且偏少。 即使有（如上述参考链接中的 <a href="https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html">3. R包开发</a>），略微过于详细，没有花上个把两天是很难体验到全流程的。</p>
 <p>因此，本文的主要目的就是用最短的时间，用专业的（自称）方式创建一个高逼格的 R 包并且托管在 GitHub 上。 也因此，会对很多局部的细节不做过多的讲解，先把流程跑通，对全流程有个大致的理解后，想了解细节时再去做具体调查即可。</p>
 </div>
 <div id="2-准备工作" class="section level2">
@@ -125,8 +118,9 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"usethis"</span><span class="op">)</span>
 
 <span class="co"># 命名一个 {rPackageTutorial} 包，并且创建，path 可以填写你想创建在哪个文件夹中。</span>
-<span class="fu">usethis</span><span class="fu">::</span><span class="fu">create_package</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"../rPackageTutorial"</span><span class="op">)</span></code></pre></div>
-<p>输入完毕后，自动会弹出一个新的 RStudio 窗口，并且自动设定了 <code>../rPackageTutorial</code> 为当前工作文件夹，名为 <a href="https://github.com/swsoyee/rPackageTutorial">rPackageTutorial</a> 就创建好了。 <del>本期教程结束，谢谢！</del></p>
+<span class="co"># 这里我们选择在当前路径创建该包</span>
+<span class="fu">usethis</span><span class="fu">::</span><span class="fu">create_package</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"rPackageTutorial"</span><span class="op">)</span></code></pre></div>
+<p>输入完毕后，自动会弹出一个新的 RStudio 窗口，并且自动设定了 <code>rPackageTutorial</code> 为当前工作文件夹，名为 <a href="https://github.com/swsoyee/rPackageTutorial">rPackageTutorial</a> 就创建好了。 <del>本期教程结束，谢谢！</del></p>
 </div>
 <div id="32-加入版本控制git" class="section level3">
 <h3 class="hasAnchor">
@@ -173,7 +167,7 @@
 <ul>
 <li>如果有引入新的包，运行 <code><a href="https://rstudio.github.io/renv//reference/snapshot.html">renv::snapshot()</a></code> 进行 <code>lockfile</code> 的更新；</li>
 <li>如果想更新所使用的包，运行 <code><a href="https://rstudio.github.io/renv//reference/update.html">renv::update()</a></code> 进行包本身的更新；</li>
-<li>如果换了电脑进行开发，运行 <code><a href="https://rstudio.github.io/renv//reference/restore.html">renv::restore</a></code> 恢复到开发时用的包环境；</li>
+<li>如果换了电脑进行开发，运行 <code><a href="https://rstudio.github.io/renv//reference/restore.html">renv::restore()</a></code> 恢复到开发时用的包环境；</li>
 </ul>
 <p>完成这一步后，不要忘记进行 Git 的提交工作。 让我们回到 GitHub Desktop，在 <code><a href="https://rdrr.io/r/base/groupGeneric.html">Summary (required)</a></code> 中提交本次改动的内容（在这里我写了 <code>使用renv进行环境初始化</code>），点击 <code>Commit to main</code> 完成本地提交后，点击 <code>Push origin</code> 推送到云端（GitHub）上（<a href="https://github.com/swsoyee/rPackageTutorial/commit/229365403eadbf8ed4ff49171a3f298a16e3c12e"><code>2493654</code></a>）。</p>
 <p><img src="reference/figures/3.3.1.png" alt="3.3.1 使用 GitHub Desktop 进行 Git 操作对于新手较为友好。"></p>
@@ -181,12 +175,18 @@
 <blockquote>
 <p>注：在本次教程中没有每次都适时的进行 <code><a href="https://rstudio.github.io/renv//reference/snapshot.html">renv::snapshot()</a></code> 的包更新操作，在开发当中，每次引入或者使用新包的适合都建议进行一次 <code>lockfile</code> 的更新（<a href="https://github.com/swsoyee/rPackageTutorial/commit/bc5051d1ed25a9d1ec36d139686acc84cfdf9f38"><code>bc5051d</code></a>）。</p>
 </blockquote>
+<p>除了使用 <a href="https://rstudio.github.io/renv/">renv</a> 进行版本控制以外，还有一种在开发 R 包时更为普遍的方式，就是在 <code>DESCRIPTION</code> 中用添加会使用或者是建议使用的包的信息。 我们可以使用下述命令进行快速添加：</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># 如果包为使用时必须的，则需要设置 type = "Imports"</span>
+<span class="co"># {renv} 在这里只是开发必备，而非使用所开发的包必备，因此选择 "Suggests" 即可</span>
+<span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_package</span><span class="op">(</span>package <span class="op">=</span> <span class="st">"renv"</span>, type <span class="op">=</span> <span class="st">"Suggests"</span><span class="op">)</span></code></pre></div>
+<p>变更结果可参考提交<a href="https://github.com/swsoyee/rPackageTutorial/commit/65e4fc4371d433fe1e883cea73e97bc692dcbf40"><code>65e4fc4</code></a>。 对于非 R 包的项目（比如说用 <code>{shiny}</code> 来开发一个仪表盘应用）来说，用 <a href="https://rstudio.github.io/renv/">renv</a> 进行依赖管理就会显得非常重要。 而在 R 包的开发中，标准的做法也就是用 <code>DESCRIPTION</code> 来记录依赖的版本信息。 不过 <code><a href="https://rstudio.github.io/renv//reference/restore.html">renv::restore()</a></code> 一条命令恢复开发环境的力量还是很香的，推荐使用度 + 1。</p>
 </div>
 <div id="34-创建-readme" class="section level3">
 <h3 class="hasAnchor">
 <a href="#34-%E5%88%9B%E5%BB%BA-readme" class="anchor"></a>3.4 创建 README</h3>
 <p>README 是一个项目的入口，因此拥有一个（至少看起来）专业的 README 是必不可少的。 在这里我们直接用命令来进行创建：</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 引入必备包 {rmarkdown}</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rmarkdown"</span><span class="op">)</span>
 
@@ -204,7 +204,7 @@
 <h3 class="hasAnchor">
 <a href="#35-%E7%BC%96%E5%86%99%E5%87%BD%E6%95%B0" class="anchor"></a>3.5 编写函数</h3>
 <p>来到 R 包的函数编写部分了，让我们直接在根目录的 R 文件夹下建立一个 <code>add.R</code> 文件来保存我们写好的函数。 一个函数一个文件的管理方式是比较稳妥的，如果是每一个函数都很简单的同一个类函数的话也可以放到同一个文件中。</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 通过 RStudio 的 File &gt; New File &gt; R Script 也一样</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files.html">file.create</a></span><span class="op">(</span><span class="st">"R/add.R"</span><span class="op">)</span>
 
@@ -214,7 +214,7 @@
 <span class="op">}</span></code></pre></div>
 <p>至此，我们只是在一个文件里写了一个函数，但是还没有让这个函数包含到我们的包中。 这时候，就需要插入一些文档让打包的时候能够识别这个函数。 这一步我们可以点击图中左上的 <strong>魔术棒</strong> 按钮（放大镜图标的右侧），点击 <code>Insert Roxygen Skeleton</code> 快速生成文档骨架。</p>
 <p><img src="reference/figures/3.5.1.png" alt="3.5.1 在 R 文件夹h中创建 add.R 文件用于保存函数，点击 Insert Roxygen Skeleton 快速生成。"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 点击 Insert Roxygen Skeleton 后就会出现文档结构</span>
 <span class="co">#' Title</span>
 <span class="co">#'</span>
@@ -248,10 +248,10 @@
 <span class="co"># 写完后，需要生成文档才能够真正使用</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>输出结果：</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>Updating rPackageTutorial documentation</span>
-<span id="cb9-2"><a href="#cb9-2"></a>Loading rPackageTutorial</span>
-<span id="cb9-3"><a href="#cb9-3"></a>Writing NAMESPACE</span>
-<span id="cb9-4"><a href="#cb9-4"></a>Writing add.Rd</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>Updating rPackageTutorial documentation</span>
+<span id="cb10-2"><a href="#cb10-2"></a>Loading rPackageTutorial</span>
+<span id="cb10-3"><a href="#cb10-3"></a>Writing NAMESPACE</span>
+<span id="cb10-4"><a href="#cb10-4"></a>Writing add.Rd</span></code></pre></div>
 <p>之后再按一下 <code>Install and Restart</code> 就可以使用了。也可以在命令行中使用 <code><a href="reference/add.html">?add</a></code> 来查看一下自己定义的帮助文档。</p>
 <p><img src="reference/figures/3.5.2.png" alt="3.5.2 输入 devtools::document() 更新文档，然后点击 Install and Restart 重新打包并自动重新加载包，可用 ?add 来确认没有问题。"></p>
 <p>最后，回到 GitHub Desktop 中提交本次更改（<a href="https://github.com/swsoyee/rPackageTutorial/commit/88f0c57f538d6b71bda138acc76ffd09aa7b1b18"><code>88f0c57</code></a>）。 至此，你的包就创建完成啦！<del>本期教程结束，再次感谢！</del></p>
@@ -260,30 +260,30 @@
 <h3 class="hasAnchor">
 <a href="#36-%E7%94%A8-styler-%E6%9D%A5%E7%BE%8E%E5%8C%96%E4%BB%A3%E7%A0%81" class="anchor"></a>3.6 用 <code>{styler}</code> 来美化代码</h3>
 <p>包是完成了，但是对于具有强迫症的程序员来说，代码似乎并不美观？ 那这个时候就交由 <a href="https://styler.r-lib.org/"><code>{styler}</code></a> 来替我们美化代码吧。</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 安装 {styler}</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"styler"</span><span class="op">)</span>
 
 <span class="co"># 对整个包进行代码美化</span>
 <span class="fu">styler</span><span class="fu">::</span><span class="fu">style_pkg</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>结果显示，一个文件被进行了代码格式上的修改，一些空格被自动添加到了里面：</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>Styling  <span class="dv">2</span>  files<span class="op">:</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st"> </span>R<span class="op">/</span>add.R   ℹ </span>
-<span id="cb11-3"><a href="#cb11-3"></a> .Rprofile ✓ </span>
-<span id="cb11-4"><a href="#cb11-4"></a>────────────────────────────────────────</span>
-<span id="cb11-5"><a href="#cb11-5"></a>Status  Count   Legend </span>
-<span id="cb11-6"><a href="#cb11-6"></a>✓   <span class="dv">1</span>   File unchanged.</span>
-<span id="cb11-7"><a href="#cb11-7"></a>ℹ   <span class="dv">1</span>   File changed.</span>
-<span id="cb11-8"><a href="#cb11-8"></a>x   <span class="dv">0</span>   Styling threw an error.</span>
-<span id="cb11-9"><a href="#cb11-9"></a>────────────────────────────────────────</span>
-<span id="cb11-10"><a href="#cb11-10"></a>Please review the changes carefully<span class="op">!</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>Styling  <span class="dv">2</span>  files<span class="op">:</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st"> </span>R<span class="op">/</span>add.R   ℹ </span>
+<span id="cb12-3"><a href="#cb12-3"></a> .Rprofile ✓ </span>
+<span id="cb12-4"><a href="#cb12-4"></a>────────────────────────────────────────</span>
+<span id="cb12-5"><a href="#cb12-5"></a>Status  Count   Legend </span>
+<span id="cb12-6"><a href="#cb12-6"></a>✓   <span class="dv">1</span>   File unchanged.</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ℹ   <span class="dv">1</span>   File changed.</span>
+<span id="cb12-8"><a href="#cb12-8"></a>x   <span class="dv">0</span>   Styling threw an error.</span>
+<span id="cb12-9"><a href="#cb12-9"></a>────────────────────────────────────────</span>
+<span id="cb12-10"><a href="#cb12-10"></a>Please review the changes carefully<span class="op">!</span></span></code></pre></div>
 <p>由于我们的函数很简单，当开发一个较大的、较为复杂的包的时候，那么就能看到很明显的变化了。 如果别人帮你改进了部分代码（提交了一个 Pull Request）却没有进行代码优化那怎么办呢？难道每次都要手动提醒对方吗注意修改格式？别着急，后续将会告诉你答案。 还是那句话，不要忘记提交本次更改（<a href="https://github.com/swsoyee/rPackageTutorial/commit/08df7c21909d4005c788fe1f101a1441bd1e5f90"><code>08df7c2</code></a>）。</p>
 </div>
 <div id="37-用-lintr-来规范代码" class="section level3">
 <h3 class="hasAnchor">
 <a href="#37-%E7%94%A8-lintr-%E6%9D%A5%E8%A7%84%E8%8C%83%E4%BB%A3%E7%A0%81" class="anchor"></a>3.7 用 <code>{lintr}</code> 来规范代码</h3>
 <p>命名法一直都是码农界一个经常讨论的问题，不同语言有不同的较为规范的命名法则，有些人喜欢用驼峰式，有些喜欢下划线式。 如果在别人好心帮你改进了代码但是没有遵循一定的法则，作为项目创建者的你要在格式上面指指点点，Pull Request 的作者也需要回应你的指点，很有可能搞得双方都不是特别舒服。 如果在项目建立当初就设定了规范，让规则来说话，就能很好地避免这种冲突。这里我们使用 <a href="https://github.com/jimhester/lintr"><code>{lintr}</code></a> 来快速帮我们解决这个问题。</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 安装 {lintr}</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"lintr"</span><span class="op">)</span>
 
@@ -299,18 +299,18 @@
 <span class="co"># 再次执行</span>
 <span class="fu">lintr</span><span class="fu">::</span><span class="fu">lint_package</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>命令完成后会在 RStudio 中弹出一个 Markers 的面板，显示：</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>Line <span class="dv">13</span> lines should not be more than <span class="dv">80</span> characters.</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>Line <span class="dv">13</span> lines should not be more than <span class="dv">80</span> characters.</span></code></pre></div>
 <p>嗯，当然太长的代码会不利于阅读，因此默认会限制了代码长度。 各种设置都可以在 <a href="https://github.com/jimhester/lintr"><code>{lintr}</code></a> 中进行参考，一般我们都使用默认规则即可。 如果需要自定义规则，则需要在项目根目录下创建一个 <code>.lintr</code> 文件，这部分可参考官方文档进行设置，这里不做赘述。 我们可以在利用 GitHub Action 来对提交的代码进行规范检查，这样一来如果有不规范代码被提交的话会自动提示错误，这样你就可以要求代码提交这进行更改了。</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 在 GitHub Action 中设置 lintr</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_github_action</span><span class="op">(</span><span class="st">"lint"</span><span class="op">)</span></code></pre></div>
 <p>运行结果：</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>✓ Setting active project to <span class="st">'/Users/suwei/Documents/GitHub/rPackageTutorial'</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>✓ Creating <span class="st">'.github/'</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>✓ Adding <span class="st">'^</span><span class="ch">\\</span><span class="st">.github$'</span> to <span class="st">'.Rbuildignore'</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>✓ Adding <span class="st">'*.html'</span> to <span class="st">'.github/.gitignore'</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>✓ Creating <span class="st">'.github/workflows/'</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>✓ Writing <span class="st">'.github/workflows/lint.yaml'</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>✓ Setting active project to <span class="st">'/Users/suwei/Documents/GitHub/rPackageTutorial'</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>✓ Creating <span class="st">'.github/'</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>✓ Adding <span class="st">'^</span><span class="ch">\\</span><span class="st">.github$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>✓ Adding <span class="st">'*.html'</span> to <span class="st">'.github/.gitignore'</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a>✓ Creating <span class="st">'.github/workflows/'</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>✓ Writing <span class="st">'.github/workflows/lint.yaml'</span></span></code></pre></div>
 <p>老样子，提交并推送代码到 GitHub 上（<a href="https://github.com/swsoyee/rPackageTutorial/commit/454c7f6bf604d6ecb84c04848b1c923750193cd2"><code>454c7f6</code></a>）。 在这之后的每次当你提交的代码通过检查的时候，就会有一个绿色的小勾表示通过，是不是稍微显得专业一点了呢？</p>
 <p><img src="reference/figures/3.7.1.png" alt="3.7.1 多出了一个小狗狗勾勾来显示我们的代码完全没问题，已通过检查。"></p>
 </div>
@@ -318,24 +318,24 @@
 <h3 class="hasAnchor">
 <a href="#38-%E7%94%A8-testthat-%E6%9D%A5%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81" class="anchor"></a>3.8 用 <code>{testthat}</code> 来测试代码</h3>
 <p>在编写一个具有可靠性的包的时候，特别是当函数变得复杂的时候，测试是必不可少的。 我们可以用 <code>{usethis}</code> 来快速设定编写测试所需要的 <a href="https://testthat.r-lib.org">testthat</a> 的环境。</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 设定环境</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_testthat</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>弹出运行结果：</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>✓ Adding <span class="st">'testthat'</span> to Suggests field <span class="cf">in</span> DESCRIPTION</span>
-<span id="cb17-2"><a href="#cb17-2"></a>✓ Setting Config<span class="op">/</span>testthat<span class="op">/</span>edition field <span class="cf">in</span> DESCRIPTION to <span class="st">'3'</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>✓ Creating <span class="st">'tests/testthat/'</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a>✓ Writing <span class="st">'tests/testthat.R'</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a>● Call <span class="st">`</span><span class="dt">use_test()</span><span class="st">`</span> to initialize a basic test file and open it <span class="cf">for</span> editing.</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># 安装 {testthat}</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="kw">install.packages</span>(<span class="st">"testthat"</span>)</span>
-<span id="cb18-3"><a href="#cb18-3"></a></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="co"># 快速创建测试文件</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="op">&gt;</span><span class="st"> </span>usethis<span class="op">::</span><span class="kw">use_test</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>✓ Adding <span class="st">'testthat'</span> to Suggests field <span class="cf">in</span> DESCRIPTION</span>
+<span id="cb18-2"><a href="#cb18-2"></a>✓ Setting Config<span class="op">/</span>testthat<span class="op">/</span>edition field <span class="cf">in</span> DESCRIPTION to <span class="st">'3'</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>✓ Creating <span class="st">'tests/testthat/'</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>✓ Writing <span class="st">'tests/testthat.R'</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>● Call <span class="st">`</span><span class="dt">use_test()</span><span class="st">`</span> to initialize a basic test file and open it <span class="cf">for</span> editing.</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># 安装 {testthat}</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw">install.packages</span>(<span class="st">"testthat"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co"># 快速创建测试文件</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="op">&gt;</span><span class="st"> </span>usethis<span class="op">::</span><span class="kw">use_test</span>()</span></code></pre></div>
 <p>弹出运行结果：</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>✓ Writing <span class="st">'tests/testthat/test-add.R'</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>● Modify <span class="st">'tests/testthat/test-add.R'</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>✓ Writing <span class="st">'tests/testthat/test-add.R'</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>● Modify <span class="st">'tests/testthat/test-add.R'</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 在自动生成的测试文件中包含了下述代码</span>
 <span class="fu">test_that</span><span class="op">(</span><span class="st">"multiplication works"</span>, <span class="op">{</span>
   <span class="fu">expect_equal</span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>
@@ -354,94 +354,94 @@
 <a href="#39-%E7%BC%96%E5%86%99%E5%8C%85%E7%9A%84%E8%AF%B4%E6%98%8E" class="anchor"></a>3.9 编写包的说明</h3>
 <p>在别的教程中，一般都会把包的说明放到前面，说明这也是很重要的一步。 在这里，为了把说明部分都汇总到一起，就将其放到了偏后的部分。</p>
 <p>打开根目录下的 <code>DESCRIPTION</code> 文件，对包说明进行一些修改，主要是 Title、Authors 和 Description 部分，别的都可以原封不动：</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>Package<span class="op">:</span><span class="st"> </span>rPackageTutorial</span>
-<span id="cb21-2"><a href="#cb21-2"></a>Title<span class="op">:</span><span class="st"> </span>Create R Package In A Professional Way Tutorial</span>
-<span id="cb21-3"><a href="#cb21-3"></a>Version<span class="op">:</span><span class="st"> </span><span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9000</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>Authors<span class="op">@</span>R<span class="op">:</span><span class="st"> </span></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="st">    </span><span class="kw">person</span>(<span class="dt">given =</span> <span class="st">"Wei"</span>,</span>
-<span id="cb21-6"><a href="#cb21-6"></a>           <span class="dt">family =</span> <span class="st">"Su"</span>,</span>
-<span id="cb21-7"><a href="#cb21-7"></a>           <span class="dt">role =</span> <span class="kw">c</span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),</span>
-<span id="cb21-8"><a href="#cb21-8"></a>           <span class="dt">email =</span> <span class="st">"swsoyee@gmail.com"</span>)</span>
-<span id="cb21-9"><a href="#cb21-9"></a>Description<span class="op">:</span><span class="st"> </span>Show an example of how to create a r package <span class="cf">in</span> a professional way.</span>
-<span id="cb21-10"><a href="#cb21-10"></a>License<span class="op">:</span><span class="st"> `</span><span class="dt">use_mit_license()</span><span class="st">`</span>, <span class="st">`</span><span class="dt">use_gpl3_license()</span><span class="st">`</span> or friends to</span>
-<span id="cb21-11"><a href="#cb21-11"></a>    pick a license</span>
-<span id="cb21-12"><a href="#cb21-12"></a>Encoding<span class="op">:</span><span class="st"> </span>UTF<span class="dv">-8</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a>LazyData<span class="op">:</span><span class="st"> </span>true</span>
-<span id="cb21-14"><a href="#cb21-14"></a>Roxygen<span class="op">:</span><span class="st"> </span><span class="kw">list</span>(<span class="dt">markdown =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb21-15"><a href="#cb21-15"></a>RoxygenNote<span class="op">:</span><span class="st"> </span><span class="dv">7</span>.<span class="fl">1.1</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a>Suggests<span class="op">:</span><span class="st"> </span></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="st">    </span><span class="kw">testthat</span> (<span class="op">&gt;=</span><span class="st"> </span><span class="dv">3</span>.<span class="fl">0.0</span>)</span>
-<span id="cb21-18"><a href="#cb21-18"></a>Config<span class="op">/</span>testthat<span class="op">/</span>edition<span class="op">:</span><span class="st"> </span><span class="dv">3</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>Package<span class="op">:</span><span class="st"> </span>rPackageTutorial</span>
+<span id="cb22-2"><a href="#cb22-2"></a>Title<span class="op">:</span><span class="st"> </span>Create R Package In A Professional Way Tutorial</span>
+<span id="cb22-3"><a href="#cb22-3"></a>Version<span class="op">:</span><span class="st"> </span><span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9000</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>Authors<span class="op">@</span>R<span class="op">:</span><span class="st"> </span></span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="st">    </span><span class="kw">person</span>(<span class="dt">given =</span> <span class="st">"Wei"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>           <span class="dt">family =</span> <span class="st">"Su"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7"></a>           <span class="dt">role =</span> <span class="kw">c</span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),</span>
+<span id="cb22-8"><a href="#cb22-8"></a>           <span class="dt">email =</span> <span class="st">"swsoyee@gmail.com"</span>)</span>
+<span id="cb22-9"><a href="#cb22-9"></a>Description<span class="op">:</span><span class="st"> </span>Show an example of how to create a r package <span class="cf">in</span> a professional way.</span>
+<span id="cb22-10"><a href="#cb22-10"></a>License<span class="op">:</span><span class="st"> `</span><span class="dt">use_mit_license()</span><span class="st">`</span>, <span class="st">`</span><span class="dt">use_gpl3_license()</span><span class="st">`</span> or friends to</span>
+<span id="cb22-11"><a href="#cb22-11"></a>    pick a license</span>
+<span id="cb22-12"><a href="#cb22-12"></a>Encoding<span class="op">:</span><span class="st"> </span>UTF<span class="dv">-8</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>LazyData<span class="op">:</span><span class="st"> </span>true</span>
+<span id="cb22-14"><a href="#cb22-14"></a>Roxygen<span class="op">:</span><span class="st"> </span><span class="kw">list</span>(<span class="dt">markdown =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb22-15"><a href="#cb22-15"></a>RoxygenNote<span class="op">:</span><span class="st"> </span><span class="dv">7</span>.<span class="fl">1.1</span></span>
+<span id="cb22-16"><a href="#cb22-16"></a>Suggests<span class="op">:</span><span class="st"> </span></span>
+<span id="cb22-17"><a href="#cb22-17"></a><span class="st">    </span><span class="kw">testthat</span> (<span class="op">&gt;=</span><span class="st"> </span><span class="dv">3</span>.<span class="fl">0.0</span>)</span>
+<span id="cb22-18"><a href="#cb22-18"></a>Config<span class="op">/</span>testthat<span class="op">/</span>edition<span class="op">:</span><span class="st"> </span><span class="dv">3</span></span></code></pre></div>
 <p>通过 <code>{usethis}</code> 来修改 License 和 Version 信息：</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># 如果没有依赖到别的具有不同版权的包的话，一般无脑 MIT 即可</span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># 如果没有依赖到别的具有不同版权的第三方包的话，一般选择最为广泛使用的 MIT 即可</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_mit_license</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>结果显示：</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>✓ Setting active project to <span class="st">'/Users/suwei/Documents/GitHub/rPackageTutorial'</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>✓ Setting License field <span class="cf">in</span> DESCRIPTION to <span class="st">'MIT + file LICENSE'</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a>✓ Writing <span class="st">'LICENSE'</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a>✓ Writing <span class="st">'LICENSE.md'</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a>✓ Adding <span class="st">'^LICENSE</span><span class="ch">\\</span><span class="st">.md$'</span> to <span class="st">'.Rbuildignore'</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>✓ Setting active project to <span class="st">'/Users/suwei/Documents/GitHub/rPackageTutorial'</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>✓ Setting License field <span class="cf">in</span> DESCRIPTION to <span class="st">'MIT + file LICENSE'</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>✓ Writing <span class="st">'LICENSE'</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>✓ Writing <span class="st">'LICENSE.md'</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>✓ Adding <span class="st">'^LICENSE</span><span class="ch">\\</span><span class="st">.md$'</span> to <span class="st">'.Rbuildignore'</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 升级版本号</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_version</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>There are uncommitted changes and you<span class="st">'re about to bump version</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="st">Do you want to proceed anyway?</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="st">1: Negative</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="st">2: No</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="st">3: Yeah</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="st">Selection: 3</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="st">Current version is 0.0.0.9000.</span></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="st">Which part to increment? (0 to exit) </span></span>
-<span id="cb25-11"><a href="#cb25-11"></a></span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="st">1: major --&gt; 1.0.0</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="st">2: minor --&gt; 0.1.0</span></span>
-<span id="cb25-14"><a href="#cb25-14"></a><span class="st">3: patch --&gt; 0.0.1</span></span>
-<span id="cb25-15"><a href="#cb25-15"></a><span class="st">4:   dev --&gt; 0.0.0.9001</span></span>
-<span id="cb25-16"><a href="#cb25-16"></a></span>
-<span id="cb25-17"><a href="#cb25-17"></a><span class="st">Selection: 2</span></span>
-<span id="cb25-18"><a href="#cb25-18"></a><span class="st">✓ Setting Version field in DESCRIPTION to '</span><span class="dv">0</span>.<span class="fl">1.0</span><span class="st">'</span></span>
-<span id="cb25-19"><a href="#cb25-19"></a><span class="st">There is 1 uncommitted file:</span></span>
-<span id="cb25-20"><a href="#cb25-20"></a><span class="st">* '</span>DESCRIPTION<span class="st">'</span></span>
-<span id="cb25-21"><a href="#cb25-21"></a><span class="st">Is it ok to commit it?</span></span>
-<span id="cb25-22"><a href="#cb25-22"></a></span>
-<span id="cb25-23"><a href="#cb25-23"></a><span class="st">1: No way</span></span>
-<span id="cb25-24"><a href="#cb25-24"></a><span class="st">2: I agree</span></span>
-<span id="cb25-25"><a href="#cb25-25"></a><span class="st">3: Absolutely not</span></span>
-<span id="cb25-26"><a href="#cb25-26"></a></span>
-<span id="cb25-27"><a href="#cb25-27"></a><span class="st">Selection: 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>There are uncommitted changes and you<span class="st">'re about to bump version</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="st">Do you want to proceed anyway?</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="st">1: Negative</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="st">2: No</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="st">3: Yeah</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="st">Selection: 3</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="st">Current version is 0.0.0.9000.</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="st">Which part to increment? (0 to exit) </span></span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a><span class="st">1: major --&gt; 1.0.0</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a><span class="st">2: minor --&gt; 0.1.0</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="st">3: patch --&gt; 0.0.1</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a><span class="st">4:   dev --&gt; 0.0.0.9001</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a></span>
+<span id="cb26-17"><a href="#cb26-17"></a><span class="st">Selection: 2</span></span>
+<span id="cb26-18"><a href="#cb26-18"></a><span class="st">✓ Setting Version field in DESCRIPTION to '</span><span class="dv">0</span>.<span class="fl">1.0</span><span class="st">'</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a><span class="st">There is 1 uncommitted file:</span></span>
+<span id="cb26-20"><a href="#cb26-20"></a><span class="st">* '</span>DESCRIPTION<span class="st">'</span></span>
+<span id="cb26-21"><a href="#cb26-21"></a><span class="st">Is it ok to commit it?</span></span>
+<span id="cb26-22"><a href="#cb26-22"></a></span>
+<span id="cb26-23"><a href="#cb26-23"></a><span class="st">1: No way</span></span>
+<span id="cb26-24"><a href="#cb26-24"></a><span class="st">2: I agree</span></span>
+<span id="cb26-25"><a href="#cb26-25"></a><span class="st">3: Absolutely not</span></span>
+<span id="cb26-26"><a href="#cb26-26"></a></span>
+<span id="cb26-27"><a href="#cb26-27"></a><span class="st">Selection: 3</span></span></code></pre></div>
 <p>最后，提交本次变更（<a href="https://github.com/swsoyee/rPackageTutorial/commit/7052d684f41e6cf36a6c9f1d9527743456f6ecaa"><code>7052d68</code></a>）。 只有在完成 <code>DESCRIPTION</code> 的合理编写后，运行所编写的 R 包的检查时，才能够无错误通过。</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 轻量版检查</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">check</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>省略中途的信息：</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>── R CMD check results ───────────────────────────── rPackageTutorial <span class="dv">0</span>.<span class="fl">1.0</span> ────</span>
-<span id="cb27-2"><a href="#cb27-2"></a>Duration<span class="op">:</span><span class="st"> </span><span class="fl">36.8</span>s</span>
-<span id="cb27-3"><a href="#cb27-3"></a></span>
-<span id="cb27-4"><a href="#cb27-4"></a><span class="dv">0</span> errors ✓ <span class="op">|</span><span class="st"> </span><span class="dv">0</span> warnings ✓ <span class="op">|</span><span class="st"> </span><span class="dv">0</span> notes ✓</span>
-<span id="cb27-5"><a href="#cb27-5"></a></span>
-<span id="cb27-6"><a href="#cb27-6"></a>R CMD check succeeded</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>── R CMD check results ───────────────────────────── rPackageTutorial <span class="dv">0</span>.<span class="fl">1.0</span> ────</span>
+<span id="cb28-2"><a href="#cb28-2"></a>Duration<span class="op">:</span><span class="st"> </span><span class="fl">36.8</span>s</span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="dv">0</span> errors ✓ <span class="op">|</span><span class="st"> </span><span class="dv">0</span> warnings ✓ <span class="op">|</span><span class="st"> </span><span class="dv">0</span> notes ✓</span>
+<span id="cb28-5"><a href="#cb28-5"></a></span>
+<span id="cb28-6"><a href="#cb28-6"></a>R CMD check succeeded</span></code></pre></div>
 <p>一切安好。做到这个地步，你的包已经逐渐流露出专业的味道了。</p>
 </div>
 <div id="310-用-pkgdown-制作包的说明书" class="section level3">
 <h3 class="hasAnchor">
 <a href="#310-%E7%94%A8-pkgdown-%E5%88%B6%E4%BD%9C%E5%8C%85%E7%9A%84%E8%AF%B4%E6%98%8E%E4%B9%A6" class="anchor"></a>3.10 用 <code>{pkgdown}</code> 制作包的说明书</h3>
 <p>在很多较为专业的包中，经常能看到会有一个包的专门的网站（在线版）说明书以供用户查阅。 就算我们只创建了一个 1 + 1 = 2 的函数，该有的逼格可必须得有。让我们同样使用 <a href="https://pkgdown.r-lib.org/"><code>{pkgdown}</code></a> 来完成创建。</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 安装 {pkgdown}</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pkgdown"</span><span class="op">)</span>
 
 <span class="co"># 初始化你的用户手册网站</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_pkgdown</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>结果显示：</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>✓ Adding <span class="st">'^_pkgdown</span><span class="ch">\\</span><span class="st">.yml$'</span>, <span class="st">'^docs$'</span> to <span class="st">'.Rbuildignore'</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>✓ Adding <span class="st">'^pkgdown$'</span> to <span class="st">'.Rbuildignore'</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a>✓ Adding <span class="st">'docs'</span> to <span class="st">'.gitignore'</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>● Record your site<span class="st">'s url in the pkgdown config file (optional, but recommended)</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="st">● Modify '</span>_pkgdown.yml<span class="st">'</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>✓ Adding <span class="st">'^_pkgdown</span><span class="ch">\\</span><span class="st">.yml$'</span>, <span class="st">'^docs$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>✓ Adding <span class="st">'^pkgdown$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>✓ Adding <span class="st">'docs'</span> to <span class="st">'.gitignore'</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>● Record your site<span class="st">'s url in the pkgdown config file (optional, but recommended)</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="st">● Modify '</span>_pkgdown.yml<span class="st">'</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 让我们来试一下看创建我们的网站</span>
 <span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html">build_site</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/3.10.1.png" alt="3.10.1 嗯，有内味儿了。"></p>
@@ -451,30 +451,30 @@
 <h3 class="hasAnchor">
 <a href="#311-%E7%94%A8-github-action-%E8%87%AA%E5%8A%A8%E6%A3%80%E6%9F%A5" class="anchor"></a>3.11 用 Github Action 自动检查</h3>
 <p>当包越来越复杂，代码和文档都大量增加的时候，特别是如果还是想搞开源，期待他人能更好地参与到由你主导的 R 包开发时，就需要设定一些自动检查的流程，从而减少一些不必要的“摩擦”。 同时，如果每次小更新都要执行一大堆的文档网站更新，运行测试等等操作的话实在是太烦了，作为一个程序员，就好好利用自动化的力量吧。</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 如无特殊需求，或者新手入门下述命令直接无脑设置即可</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_tidy_github_actions</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>显示结果：</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>✓ Adding <span class="st">'covr'</span> to Suggests field <span class="cf">in</span> DESCRIPTION</span>
-<span id="cb32-2"><a href="#cb32-2"></a>✓ Writing <span class="st">'codecov.yml'</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a>✓ Adding <span class="st">'^codecov</span><span class="ch">\\</span><span class="st">.yml$'</span> to <span class="st">'.Rbuildignore'</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>✓ Adding Codecov test coverage badge to <span class="st">'README.Rmd'</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a>● Re<span class="op">-</span>knit <span class="st">'README.Rmd'</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a>✓ Writing <span class="st">'.github/workflows/R-CMD-check.yaml'</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a>✓ Adding R<span class="op">-</span>CMD<span class="op">-</span>check badge to <span class="st">'README.Rmd'</span></span>
-<span id="cb32-8"><a href="#cb32-8"></a>● Re<span class="op">-</span>knit <span class="st">'README.Rmd'</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a>✓ Writing <span class="st">'.github/workflows/pr-commands.yaml'</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a>✓ Writing <span class="st">'.github/workflows/pkgdown.yaml'</span></span>
-<span id="cb32-11"><a href="#cb32-11"></a>✓ Writing <span class="st">'.github/workflows/test-coverage.yaml'</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>✓ Adding <span class="st">'covr'</span> to Suggests field <span class="cf">in</span> DESCRIPTION</span>
+<span id="cb33-2"><a href="#cb33-2"></a>✓ Writing <span class="st">'codecov.yml'</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a>✓ Adding <span class="st">'^codecov</span><span class="ch">\\</span><span class="st">.yml$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>✓ Adding Codecov test coverage badge to <span class="st">'README.Rmd'</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>● Re<span class="op">-</span>knit <span class="st">'README.Rmd'</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a>✓ Writing <span class="st">'.github/workflows/R-CMD-check.yaml'</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a>✓ Adding R<span class="op">-</span>CMD<span class="op">-</span>check badge to <span class="st">'README.Rmd'</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a>● Re<span class="op">-</span>knit <span class="st">'README.Rmd'</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a>✓ Writing <span class="st">'.github/workflows/pr-commands.yaml'</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a>✓ Writing <span class="st">'.github/workflows/pkgdown.yaml'</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a>✓ Writing <span class="st">'.github/workflows/test-coverage.yaml'</span></span></code></pre></div>
 <p>很好，直接返回 GitHub Desktop 保存提交。 嗯？是否无法提交了？弹出错误提示：</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>Commit failed <span class="op">-</span><span class="st"> </span>exit code <span class="dv">1</span> received, with output<span class="op">:</span><span class="st"> 'README.md is out of date; please re-knit README.Rmd</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="st">use '</span>git commit <span class="op">--</span>no<span class="op">-</span>verify<span class="st">' to override this check'</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>Commit failed <span class="op">-</span><span class="st"> </span>exit code <span class="dv">1</span> received, with output<span class="op">:</span><span class="st"> 'README.md is out of date; please re-knit README.Rmd</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="st">use '</span>git commit <span class="op">--</span>no<span class="op">-</span>verify<span class="st">' to override this check'</span></span></code></pre></div>
 <p>还记得上文提到的备注吗？</p>
 <blockquote>
 <p>注：由于设定，每一次编写后必须要点击 <code>Knit</code> 进行更新才能提交本次变更。</p>
 </blockquote>
 <p>所以在此，由于引入的设置命令中对 <code>README.Rmd</code> 进行了修改（加了 2 个徽章），因此首先需要更新我们的 <code>README.md</code> 才行。 打开 <code>README.Rmd</code> 点击编辑面板上方的 <code>Knit</code> 进行同步更新。或者使用下述命令更新也可。</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">build_rmd</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>提交本次变更推送到 GitHub 中（<a href="https://github.com/swsoyee/rPackageTutorial/commit/e78b03590faf9ed4281a7506f35bc73e85d48ce7"><code>e78b035</code></a>）。 点开检查的标记，发现多出了非常多的流程。</p>
 <p><img src="reference/figures/3.11.1.png" alt="3.11.1 运行中是黄色小圈圈，通过是绿色的勾，有错误是红色的叉。"></p>
@@ -485,36 +485,36 @@
 <p>按图中设置分支 <code>Branch:gh-pages / root</code> 后按保存即可。</p>
 <p><img src="reference/figures/3.11.3.png" alt="3.11.3 按图中设置即可。"></p>
 <p>保存成功后会自动返回页面最上方，还是向下滚动到刚才的 <code>GitHub Pages</code>，能看到多了一行字，没几十秒就能看到我们的网址被激活了：</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>Your site is ready to be published at https<span class="op">:</span><span class="er">//</span>swsoyee.github.io<span class="op">/</span>rPackageTutorial<span class="op">/</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>Your site is ready to be published at https<span class="op">:</span><span class="er">//</span>swsoyee.github.io<span class="op">/</span>rPackageTutorial<span class="op">/</span>.</span></code></pre></div>
 <p>然后让我们回到 GitHub 仓库的首页，你可能会看到一个 <a href="https://codecov.io/gh/swsoyee/rPackageTutorial?branch=main"><code>codecov | unknown</code></a> 的小徽章。 但不用着急，只需要后续再提交内容的话，unknown 就会自动更新为测试覆盖度了。</p>
 </div>
 <div id="312-丰富文档" class="section level3">
 <h3 class="hasAnchor">
 <a href="#312-%E4%B8%B0%E5%AF%8C%E6%96%87%E6%A1%A3" class="anchor"></a>3.12 丰富文档</h3>
 <p>当我们完成上面步骤的设置后，整体环境也搭建的差不多了，剩下就是丰富我们的各种文档，让专业程度更上一层楼。</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 增加 NEWS 页面，用于记录每一次升级所做出的变更</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_news_md</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>显示结果</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>✓ Writing <span class="st">'NEWS.md'</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a>● Modify <span class="st">'NEWS.md'</span></span>
-<span id="cb37-3"><a href="#cb37-3"></a>There is <span class="dv">1</span> uncommitted file<span class="op">:</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a><span class="er">*</span><span class="st"> 'NEWS.md'</span></span>
-<span id="cb37-5"><a href="#cb37-5"></a>Is it ok to commit it?</span>
-<span id="cb37-6"><a href="#cb37-6"></a></span>
-<span id="cb37-7"><a href="#cb37-7"></a><span class="dv">1</span><span class="op">:</span><span class="st"> </span>Yeah</span>
-<span id="cb37-8"><a href="#cb37-8"></a><span class="dv">2</span><span class="op">:</span><span class="st"> </span>No</span>
-<span id="cb37-9"><a href="#cb37-9"></a><span class="dv">3</span><span class="op">:</span><span class="st"> </span>Negative</span>
-<span id="cb37-10"><a href="#cb37-10"></a></span>
-<span id="cb37-11"><a href="#cb37-11"></a>Selection<span class="op">:</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>✓ Writing <span class="st">'NEWS.md'</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>● Modify <span class="st">'NEWS.md'</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a>There is <span class="dv">1</span> uncommitted file<span class="op">:</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a><span class="er">*</span><span class="st"> 'NEWS.md'</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a>Is it ok to commit it?</span>
+<span id="cb38-6"><a href="#cb38-6"></a></span>
+<span id="cb38-7"><a href="#cb38-7"></a><span class="dv">1</span><span class="op">:</span><span class="st"> </span>Yeah</span>
+<span id="cb38-8"><a href="#cb38-8"></a><span class="dv">2</span><span class="op">:</span><span class="st"> </span>No</span>
+<span id="cb38-9"><a href="#cb38-9"></a><span class="dv">3</span><span class="op">:</span><span class="st"> </span>Negative</span>
+<span id="cb38-10"><a href="#cb38-10"></a></span>
+<span id="cb38-11"><a href="#cb38-11"></a>Selection<span class="op">:</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
 <p>由于默认的提交信息没有遵循我们的规范，所以我选择了不自动提交而手动修改提交信息后用 GitHub Desktop 自己提交<a href="https://github.com/swsoyee/rPackageTutorial/commit/06b3cd50ff9ee969b17ebdc6aa761dbe6f0110b8"><code>06b3cd5</code></a>。</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 添加 Code of Conduct</span>
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_code_of_conduct</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>根据弹出的提示，把自动生成的内容添加到 <code>README.Rmd</code> 中并且重新生成 <code>README.md</code> 后提交本次变更<a href="https://github.com/swsoyee/rPackageTutorial/commit/c5834f3ba6c6b5eb88e104166026433a37c0d8bc"><code>c5834f3</code></a>。</p>
 <p>接着手动在 <code>DESCRIPTION</code> 中最后的位置添加项目地址和 Bug 报告链接：</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>URL<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>swsoyee<span class="op">/</span>rPackageTutorial</span>
-<span id="cb39-2"><a href="#cb39-2"></a>BugReports<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>swsoyee<span class="op">/</span>rPackageTutorial<span class="op">/</span>issues</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>URL<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>swsoyee<span class="op">/</span>rPackageTutorial</span>
+<span id="cb40-2"><a href="#cb40-2"></a>BugReports<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>swsoyee<span class="op">/</span>rPackageTutorial<span class="op">/</span>issues</span></code></pre></div>
 <blockquote>
 <p>注：在这里同样可以通过 <code>usethis::use_github_links()</code> 来达成相同目的，但是首先要进行 PAT 的设置。 有兴趣的可以自己设置一下，这里就采取最简单易懂的复制粘贴形式来达成相同目的了。</p>
 </blockquote>
@@ -527,7 +527,7 @@
 <a href="#4-%E7%BB%93%E8%AF%AD" class="anchor"></a>4. 结语</h2>
 <p>在洋洋洒洒地完成了上述所有步骤后，一个能“唬人”的专业 R 包开发环境就建立完毕了。 接下来只需要继续的在 <code>R</code> 文件夹中添加自己编写的函数，和 <code>tests/testthat</code> 中持续编写追加你的内容，每次更新一点内容就即使进行提交，以记录你的每一步变更（推荐函数和测试同时提交，见 <strong>TDD原则</strong>）。 本地编写时候，时常用 <code>devtools::check()</code> 进行检查，确保每一次变更都不会造成你的包出现问题。</p>
 <p>即使是个人开发，对于大范围的改动也尽量通过使用 <code>Pull Request</code> 的方式进行，而不是直接推送到 <code>master</code> 或者 <code>main</code> 的主分支中，方便搞砸时候的回退操作等等。 只有构建了一个较为专业的环境，用户在搜索的时候才会对你的包略有信赖，从而获取用户。 而也只有遵循了开源社区的规范时，才更方便他人来对你的包进行改进，降低了阅读源码的难度。</p>
-<p>除了以上列举的步骤外，其实还有很多能用的东西，但如果写起来真是没完没了。 如果感兴趣的话可以去查看 <strong>Hadley Wickham</strong> 编写的 <a href="https://r-pkgs.org/">R Packages</a>了解更多详细内容和具体的说明。</p>
+<p>除了以上列举的步骤外，其实还有很多能用的东西，单就 <code>{usethis}</code> 一个包中能用的函数就好几十个，如果写起来真是没完没了。 如果感兴趣的话可以去查看 <strong>Hadley Wickham</strong> 编写的 <a href="https://r-pkgs.org/">R Packages</a>和各个工具包的说明文档来了解更多详细内容和具体的说明。</p>
 </div>
 </div>
   </div>
