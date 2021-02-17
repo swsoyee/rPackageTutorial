@@ -29,18 +29,12 @@ knitr::opts_chunk$set(
 
 1. [开发 R 程序包之忍者篇](https://cosx.org/2011/05/write-r-packages-like-a-ninja/);
 2. [极简 R 包建立方法](https://cosx.org/2013/11/building-r-packages-easily/);
-3. [R包开发](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html);
-4. [如何快速写一个R包](https://www.bioinfo-scrounger.com/archives/546/)
-5. [9分钟写个R语言包：菜鸟致简速成](https://pzhao.org/zh/post/rmickey/)
-6. [R语言--创建（编写）R包](https://zhuanlan.zhihu.com/p/115763795)
-7. [创建R包](https://www.wzyblog.top/post/2018/09/19/creating-r-packages/)
-8. [R 包开发](https://rstudio-pubs-static.s3.amazonaws.com/462425_841be258782641ee83e8b89c45fa504c.html)
-9. [R包编写详细教程](http://personalbioinformatics.blogspot.com/2019/01/r.html)
-10. [创建R包+封装函数+上传到github](https://www.jianshu.com/p/5ed642733a2a)
+3. [R包开发](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html);  
+......
 
 还有数不胜数的学习笔记和知识分享类的文章。那么问题来了，为什么我还要再写一篇来分享如何创建 R 包的文章呢？
-动机其实也很简单，可能也是由于自己阅读或者搜索深度不够，目前还没有发现一篇说到如何用“专业”的方式来创建 R 包的教程。
-
+动机其实也很简单，由于 R 社区的不断发展，`{usethis}`、`{testthat}`、`{styler}`、`{lintr}`、`{pkgdown}` 等等各类便于开发的工具层出不穷，在这些工具的帮助下，开发一个包的学习曲线愈发地降低。
+而现在中文网络中基于这些更为现代化工具的开发新手级入门教程还是尚且偏少。
 即使有（如上述参考链接中的 [3. R包开发](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html)），略微过于详细，没有花上个把两天是很难体验到全流程的。
 
 因此，本文的主要目的就是用最短的时间，用专业的（自称）方式创建一个高逼格的 R 包并且托管在 GitHub 上。
@@ -76,10 +70,11 @@ knitr::opts_chunk$set(
 install.packages("usethis")
 
 # 命名一个 {rPackageTutorial} 包，并且创建，path 可以填写你想创建在哪个文件夹中。
-usethis::create_package(path = "../rPackageTutorial")
+# 这里我们选择在当前路径创建该包
+usethis::create_package(path = "rPackageTutorial")
 ```
 
-输入完毕后，自动会弹出一个新的 RStudio 窗口，并且自动设定了 `../rPackageTutorial` 为当前工作文件夹，名为 `{rPackageTutorial}` 就创建好了。
+输入完毕后，自动会弹出一个新的 RStudio 窗口，并且自动设定了 `rPackageTutorial` 为当前工作文件夹，名为 `{rPackageTutorial}` 就创建好了。
 ~~本期教程结束，谢谢！~~
 
 ### 3.2 加入版本控制（Git）
@@ -148,7 +143,7 @@ renv::snapshot()
 
 - 如果有引入新的包，运行 `renv::snapshot()` 进行 `lockfile` 的更新；
 - 如果想更新所使用的包，运行 `renv::update()` 进行包本身的更新；
-- 如果换了电脑进行开发，运行 `renv::restore` 恢复到开发时用的包环境；
+- 如果换了电脑进行开发，运行 `renv::restore()` 恢复到开发时用的包环境；
 
 完成这一步后，不要忘记进行 Git 的提交工作。
 让我们回到 GitHub Desktop，在 `Summary (required)` 中提交本次改动的内容（在这里我写了 `使用renv进行环境初始化`），点击 `Commit to main` 完成本地提交后，点击 `Push origin` 推送到云端（GitHub）上（[`2493654`](https://github.com/swsoyee/rPackageTutorial/commit/229365403eadbf8ed4ff49171a3f298a16e3c12e)）。
@@ -159,6 +154,19 @@ renv::snapshot()
 在这之后将不再赘述每一步操作的提交工作，可以参考示例项目的提交记录即可。
 
 > 注：在本次教程中没有每次都适时的进行 `renv::snapshot()` 的包更新操作，在开发当中，每次引入或者使用新包的适合都建议进行一次 `lockfile` 的更新（[`bc5051d`](https://github.com/swsoyee/rPackageTutorial/commit/bc5051d1ed25a9d1ec36d139686acc84cfdf9f38)）。
+
+除了使用 `{renv}` 进行版本控制以外，还有一种在开发 R 包时更为普遍的方式，就是在 `DESCRIPTION` 中用添加会使用或者是建议使用的包的信息。
+我们可以使用下述命令进行快速添加：
+```r
+# 如果包为使用时必须的，则需要设置 type = "Imports"
+# {renv} 在这里只是开发必备，而非使用所开发的包必备，因此选择 "Suggests" 即可
+usethis::use_package(package = "renv", type = "Suggests")
+```
+
+变更结果可参考提交[`65e4fc4`](https://github.com/swsoyee/rPackageTutorial/commit/65e4fc4371d433fe1e883cea73e97bc692dcbf40)。
+对于非 R 包的项目（比如说用 `{shiny}` 来开发一个仪表盘应用）来说，用 `{renv}` 进行依赖管理就会显得非常重要。
+而在 R 包的开发中，标准的做法也就是用 `DESCRIPTION` 来记录依赖的版本信息。
+不过 `renv::restore()` 一条命令恢复开发环境的力量还是很香的，推荐使用度 + 1。
 
 ### 3.4 创建 README
 
@@ -420,7 +428,7 @@ Config/testthat/edition: 3
 
 通过 `{usethis}` 来修改 License 和 Version 信息：
 ```r
-# 如果没有依赖到别的具有不同版权的包的话，一般无脑 MIT 即可
+# 如果没有依赖到别的具有不同版权的第三方包的话，一般选择最为广泛使用的 MIT 即可
 usethis::use_mit_license()
 ```
 结果显示：
@@ -641,5 +649,5 @@ BugReports: https://github.com/swsoyee/rPackageTutorial/issues
 只有构建了一个较为专业的环境，用户在搜索的时候才会对你的包略有信赖，从而获取用户。
 而也只有遵循了开源社区的规范时，才更方便他人来对你的包进行改进，降低了阅读源码的难度。
 
-除了以上列举的步骤外，其实还有很多能用的东西，但如果写起来真是没完没了。
-如果感兴趣的话可以去查看 **Hadley Wickham** 编写的 [R Packages](https://r-pkgs.org/)了解更多详细内容和具体的说明。
+除了以上列举的步骤外，其实还有很多能用的东西，单就 `{usethis}` 一个包中能用的函数就好几十个，如果写起来真是没完没了。
+如果感兴趣的话可以去查看 **Hadley Wickham** 编写的 [R Packages](https://r-pkgs.org/)和各个工具包的说明文档来了解更多详细内容和具体的说明。
